@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+#root,
+canvas {
+  width: 100%;
+  height: 100vh;
+}
+
+.controls {
+  padding: 30px;
+  position: absolute;
+}

@@ -34,7 +34,7 @@ const Arc = function(pointA, pointB, color) {
   lineGeometry.computeLineDistances();
   const lineMaterial = new LineBasicMaterial({
     color: color,
-    linewidth: 3
+    lineWidth: 2
   });
   const line = new Line(lineGeometry, lineMaterial);
 

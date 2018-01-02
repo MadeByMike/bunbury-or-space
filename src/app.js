@@ -34,7 +34,6 @@ const app = () => {
   const uiScene = new UIScene(sandpit, renderer);
 
   const bunburyOrSpace = data => {
-    console.log("result:", data.locations[0].pos, data.locations[1].pos);
     globeScene.drawWidgets(data.locations[0].pos, data.locations[1].pos);
     uiScene.updateUIData(data);
     uiScene.updateUITexture(sandpit.width, sandpit.height);

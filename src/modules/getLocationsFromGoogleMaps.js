@@ -1,28 +1,40 @@
 import googleMapsClient from "@google/maps";
 
-const gmaps = googleMapsClient.createClient({
-  key: "AIzaSyBhyBaFR21-PkPk2yTdOZaJWIGerLbhmhg",
-  Promise: Promise
-});
-
 function getLocationsFromGoogleMaps(location1, location2) {
-  var p1 = gmaps
-    .geocode({
-      address: location1
-    })
-    .asPromise()
-    .then(response => response.json.results[0].geometry.location)
-    .catch(err => console.log(err));
+  const service = new window.google.maps.Geocoder();
+  const p1 = new Promise((resolve, reject) => {
+    service.geocode(
+      {
+        address: location1
+      },
+      results => {
+        resolve({
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        });
+      }
+    );
+  });
 
-  var p2 = gmaps
-    .geocode({
-      address: location2
-    })
-    .asPromise()
-    .then(response => response.json.results[0].geometry.location)
-    .catch(err => console.log(err));
+  const p2 = new Promise((resolve, reject) => {
+    service.geocode(
+      {
+        address: location2
+      },
+      results => {
+        resolve({
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        });
+      }
+    );
+  });
 
-  return Promise.all([p1, p2]);
+  return Promise.all([p1, p2])
+    .then(results => {
+      return [results[0], results[1]];
+    })
+    .catch(err => console.log(err));
 }
 
 export default getLocationsFromGoogleMaps;

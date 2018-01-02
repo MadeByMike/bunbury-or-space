@@ -22,33 +22,38 @@ const drawBar = (labelBottom, labelTop, pos, width, height, color) => {
   ctx.restore();
 };
 
+const lerp = (a, b, c) => {
+  return (1 - c) * a + c * b;
+};
+
 const UITexture = function(width, height, data) {
+  ctx.clearRect(0, 0, uiCanvas.width, uiCanvas.height);
   uiCanvas.width = width * 2;
   uiCanvas.height = height * 2;
 
-  ctx.clearRect(0, 0, uiCanvas.width, uiCanvas.height);
-
   if (data) {
-    console.log("data", data);
+    const max = Math.max(data[0].distance, data[1].distance);
+
     drawBar(
       data[0].label,
       data[0].distance,
       { x: 100, y: uiCanvas.height - 100 },
       100,
-      100,
+      lerp(0, height, data[0].distance / max),
       "blue"
     );
+
     drawBar(
       data[1].label,
       data[1].distance,
       { x: 300, y: uiCanvas.height - 100 },
       100,
-      500,
+      lerp(0, height, data[1].distance / max),
       "yellow"
     );
   }
 
-  var uiTexture = new Texture(uiCanvas);
+  const uiTexture = new Texture(uiCanvas);
   uiTexture.needsUpdate = true;
 
   return uiTexture;

@@ -1,19 +1,20 @@
-import googleMapsClient from "@google/maps";
-
-const gmaps = googleMapsClient.createClient({
-  key: "AIzaSyBhyBaFR21-PkPk2yTdOZaJWIGerLbhmhg",
-  Promise: Promise
-});
-
 function getDistanceFromGoogleMaps(pos1, pos2) {
-  var p1 = gmaps
-    .distanceMatrix({
-      origins: [pos1],
-      destinations: [pos2]
+  const service = new window.google.maps.DistanceMatrixService();
+  return new Promise((resolve, reject) => {
+    service.getDistanceMatrix(
+      {
+        origins: [pos1],
+        destinations: [pos2],
+        travelMode: "DRIVING"
+      },
+      response => {
+        resolve(response);
+      }
+    );
+  })
+    .then(result => {
+      return (result.rows[0].elements[0].distance.value / 1000).toFixed(1);
     })
-    .asPromise()
-    .then(response => response.json)
-    .then(res => console.log(res))
     .catch(err => console.log(err));
 }
 

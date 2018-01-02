@@ -82,10 +82,11 @@ class UIScene {
   }
 
   updateUIData(data) {
+    console.log("data:", data);
     //ToDo: extract data
     const uiData = [
       { distance: 100, label: "Space" },
-      { distance: 200, label: "Bunbury" }
+      { distance: data.distance, label: data.locations[1].label }
     ];
 
     this.uiData = uiData;
